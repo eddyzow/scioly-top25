@@ -176,6 +176,7 @@ td { font-size: 1rem; }
 .vote-button {
   position: fixed;
   bottom: 25px;
+  z-index: 1000;
   right: 25px;
   background: #282828;
   color: white;
