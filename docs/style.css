@@ -156,6 +156,7 @@ td { font-size: 1rem; }
 /* ===== About (centered) ===== */
 #about { margin-top: 4rem; padding: 3rem 2rem; border-top: 2px solid var(--border); }
 .about-wrapper h2 { text-align: center; margin-bottom: 1rem; }
+.about-wrapper h1 { text-align: center; margin-bottom: 1rem; }
 .about-wrapper {max-width: 720px;   margin: 0 auto; }
 .about-desc {
   text-align: center;
@@ -176,18 +177,18 @@ td { font-size: 1rem; }
   position: fixed;
   bottom: 25px;
   right: 25px;
-  background: #ffffff;
-  color: #161616;
+  background: #282828;
+  color: white;
   font-weight: 800;
-  border: 2px solid #bdbdbd;
+  border: 2px solid #636363;
   padding: 0.9rem 1.6rem;
   cursor: pointer;
-  box-shadow: 4px 4px 0 #bdbdbd;
+  box-shadow: 2px 2px 0 #7a7a7a;
   font-family: var(--font-main);
   transition: transform .15s var(--ease), box-shadow .15s var(--ease);
   border-radius: 6px;
 }
-.vote-button:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #bdbdbd; }
+.vote-button:hover { transform: translate(1px, 1px); box-shadow: 1px 1px 0 #bdbdbd; }
 
 /* ===== Footer ===== */
 footer {
@@ -241,8 +242,8 @@ footer {
   padding: 1.25rem 1.25rem 1.25rem 1.25rem;
   /* The blur only appears if this has transparency */
   background: rgba(22,22,22,0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 20;
   /* Ensure a new stacking context and reliable compositing */
   isolation: isolate;

@@ -33,7 +33,7 @@ const NEWS = {
       date: "Oct 5, 2025",
       author: "Scioly25 Team",
       content:
-        "Welcome to the 2025-2026 Science Olympiad season! We are currently in the period we call \"pre-season\", when the season is officially underway but no major tournaments have taken place. Initial pre-season rankings will be released on Oct 25. From then on, we will update rankings periodically based on alumni votes, which will be influenced by general sentiment and tournament results.",
+        "Welcome to the 2025-2026 Science Olympiad season! We are currently in the period we call \"pre-season\", when the season is officially underway but no major tournaments have taken place. Initial pre-season rankings will be released on Oct. 25. From then on, we will update rankings periodically based on alumni votes, which will be influenced by general sentiment and tournament results. If you are an alum, we encourage you to participate in the voting process to help shape the rankings. You can find the sign-up form by clicking the button in the lower right hand corner. Stay tuned for more updates as the season progresses!",
     },
   ],
   C: {
