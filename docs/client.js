@@ -77,16 +77,16 @@ const DATA={
 /* ---- News ---- */
 const NEWS={
   C:{
-    1:[{title:"Preseason Hype Centers on Troy, Solon",date:"Sept 12, 2025",author:"Eddy Zhao",content:"Coast-to-coast alumni ballots give Troy a narrow edge over Solon entering Week 1."}],
-    2:[{title:"Mason Surges After Strong Invite",date:"Sept 19, 2025",author:"Aneesh Iyer",content:"Mason climbs on the back of consistent top-3 finishes; WW-P North stabilizes."}],
-    3:[{title:"Arcadia Enters Top 25",date:"Sept 26, 2025",author:"Eddy Zhao",content:"Arcadia breaks into the poll after a breakout showing at early-season invitationals."}],
-    4:[{title:"WW-P South Joins the Party",date:"Oct 3, 2025",author:"Aneesh Iyer",content:"New Jersey tightens — WW-P South debuts as regional results shake the teens."}]
+    1:[{title:"Preseason Hype Centers on Troy, Solon",date:"Sept 12, 2025",author:"Scioly25 Team",content:"Coast-to-coast alumni ballots give Troy a narrow edge over Solon entering Week 1."}],
+    2:[{title:"Mason Surges After Strong Invite",date:"Sept 19, 2025",author:"Scioly25 Team",content:"Mason climbs on the back of consistent top-3 finishes; WW-P North stabilizes."}],
+    3:[{title:"Arcadia Enters Top 25",date:"Sept 26, 2025",author:"Scioly25 Team",content:"Arcadia breaks into the poll after a breakout showing at early-season invitationals."}],
+    4:[{title:"WW-P South Joins the Party",date:"Oct 3, 2025",author:"Scioly25 Team",content:"New Jersey tightens — WW-P South debuts as regional results shake the teens."}]
   },
   B:{
-    1:[{title:"Kennedy, Solon Pace the Field",date:"Sept 12, 2025",author:"Aneesh Iyer",content:"Early ballots favor the West Coast powerhouse with Solon close behind."}],
-    2:[{title:"Texas Heats Up",date:"Sept 19, 2025",author:"Eddy Zhao",content:"Beckendorff and Seven Lakes post statement results across multiple events."}],
-    3:[{title:"Depth Matters Mid-Season",date:"Sept 26, 2025",author:"Aneesh Iyer",content:"Balanced rosters rise as rebuilds cause turbulence through the teens."}],
-    4:[{title:"Meads Mill Reappears in the Poll",date:"Oct 3, 2025",author:"Eddy Zhao",content:"Michigan’s perennial threat returns to the top-25 as the Midwest tightens up."}]
+    1:[{title:"Kennedy, Solon Pace the Field",date:"Sept 12, 2025",author:"Scioly25 Team",content:"Early ballots favor the West Coast powerhouse with Solon close behind."}],
+    2:[{title:"Texas Heats Up",date:"Sept 19, 2025",author:"Scioly25 Team",content:"Beckendorff and Seven Lakes post statement results across multiple events."}],
+    3:[{title:"Depth Matters Mid-Season",date:"Sept 26, 2025",author:"Scioly25 Team",content:"Balanced rosters rise as rebuilds cause turbulence through the teens."}],
+    4:[{title:"Meads Mill Reappears in the Poll",date:"Oct 3, 2025",author:"Scioly25 Team",content:"Michigan’s perennial threat returns to the top-25 as the Midwest tightens up."}]
   }
 };
 
