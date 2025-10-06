@@ -8,74 +8,95 @@
   --green: #17c964;
   --red: #ff4d4f;
   --font-main: "Atkinson Hyperlegible", monospace;
-  --content-width: 1300px;
+  --content-width: 1250px;
   --ease: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 * { box-sizing: border-box; }
-html, body { height: 100%; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-  margin: 0;
   color: var(--text);
   background: var(--background);
   font-family: var(--font-main);
+  overflow-x: hidden;
 }
 
-/* Header spacing */
+/* ===== Header ===== */
 .page-header {
   text-align: center;
-  margin-top: 4rem;
-  margin-bottom: 3rem;
+  margin: 3.5rem auto 3rem auto;
+  max-width: 900px;
+  padding: 0 1rem;
 }
 .page-header h1 {
-  font-size: 2.8rem;
-  font-weight: 700;
+  font-size: 2.9rem;
+  font-weight: 800;
   margin: 0.4rem 0;
 }
 .page-header h2 {
-  font-size: 1.6rem;
-  margin: 0.6rem 0;
+  font-size: 1.5rem;
+  margin: 0.5rem 0 0.7rem 0;
   color: #aaa;
 }
 .desc {
   font-size: 1.1rem;
   opacity: 0.85;
-  max-width: 780px;
+  max-width: 700px;
   margin: 1rem auto 0 auto;
+  line-height: 1.6;
 }
 
+/* ===== Layout ===== */
 .two-column {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   max-width: var(--content-width);
   margin: 0 auto;
-  gap: 2rem;
+  gap: 2.5rem;
   padding: 0 2rem;
   align-items: stretch;
 }
-
-.ranking-section { flex: 0 0 60%; position: relative; }
-
+.ranking-section {
+  flex: 1 1 650px;
+  position: relative;
+  min-width: 500px;
+}
 .news-section {
-  flex: 1;
+  flex: 1 1 420px;
   overflow-y: auto;
-  padding-right: 1rem;
+  padding-right: 0.8rem;
+  margin-top: 0.2rem;
 }
-.news-section .headline-title {
-  font-size: 1.35rem;
-  font-weight: 900;
-  margin-bottom: 2.2rem;
-}
-.news-section::-webkit-scrollbar { width: 10px; }
-.news-section::-webkit-scrollbar-thumb { background: #555; border-radius: 5px; }
 
-/* Week nav with arrows aligned to edges */
+/* ===== Headlines ===== */
+.news-section .headline-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin: 0 0 1.8rem 0; /* requested: zero margin above */
+  text-align: center;
+}
+
+/* Scrollbar */
+.news-section::-webkit-scrollbar { width: 8px; }
+.news-section::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+/* ===== Week navigation ===== */
 .week-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.1rem;
-  position: relative;
+  margin-bottom: 1.2rem;
+  gap: 0.6rem;
 }
 .week-title {
   font-weight: 900;
@@ -89,24 +110,31 @@ body {
   color: var(--text);
   border: 2px solid var(--border);
   padding: 0.7rem 1.6rem;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   cursor: pointer;
   box-shadow: 3px 3px 0 var(--border);
   transition: transform .15s var(--ease), box-shadow .15s var(--ease);
-  min-width: 72px;
+  min-width: 74px;
 }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn:hover:not(:disabled) { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--border); }
+.btn:hover:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--border);
+}
 
+/* ===== Table header ===== */
 .table-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: .25rem 0 1rem 0;
+  margin: 0.5rem 0 1.2rem 0;
 }
-h3 { margin: 0; }
+.table-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
 
-/* Division slider */
+/* ===== Division switch ===== */
 .switch {
   position: relative;
   width: 100px;
@@ -118,13 +146,13 @@ h3 { margin: 0; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 .6rem;
+  padding: 0 0.6rem;
   user-select: none;
 }
 .switch-label {
   font-weight: 800;
   font-size: 1rem;
-  opacity: .78;
+  opacity: 0.78;
 }
 .switch-knob {
   position: absolute;
@@ -141,26 +169,27 @@ h3 { margin: 0; }
 }
 .switch[aria-checked="false"] .switch-knob { right: 48px; }
 
-.ranking-table-container { overflow-x: auto; }
-
+/* ===== Ranking table ===== */
+.ranking-table-container { overflow-x: auto; overflow-y: none;}
 table {
   width: 100%;
   border-collapse: collapse;
-  background: rgba(40,40,40,.25);
+  background: rgba(40,40,40,0.25);
   backdrop-filter: blur(4px);
   box-shadow: 4px 4px 0 var(--border);
 }
 th, td {
-  padding: .9rem .8rem;
+  padding: 0.9rem 0.8rem;
   border-bottom: 1px solid var(--border);
   vertical-align: middle;
 }
 th {
   text-transform: uppercase;
-  letter-spacing: .05em;
-  font-size: .95rem;
+  letter-spacing: 0.05em;
+  font-size: 0.95rem;
   color: #cfcfcf;
   border-bottom: 2px solid var(--border);
+  text-align: left;
 }
 td { font-size: 1rem; }
 tr { transition: transform 250ms ease, opacity 250ms ease; }
@@ -170,52 +199,73 @@ tr { transition: transform 250ms ease, opacity 250ms ease; }
 .trend-down { color: var(--red); font-weight: 800; }
 .trend-none { color: var(--muted); font-weight: 700; }
 
-/* Blogpost restored */
+/* ===== Blogpost (news cards) ===== */
 .blogpost {
   border: 2px solid var(--border);
-  padding: 1.5rem;
-  box-shadow: 4px 4px 0px var(--border);
-  display: flex;
-  flex-direction: column;
-  position: relative;
+  padding: 1.4rem 1.6rem;
+  box-shadow: 4px 4px 0 var(--border);
   background-color: rgba(30, 30, 30, 0.25);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  transition: transform 0.3s var(--ease),
-    box-shadow 0.3s var(--ease);
-  height: 100%;
-  box-sizing: border-box;
-  width: 100%;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  border-radius: 4px;
   margin-bottom: 1.5rem;
 }
 .blogpost:hover {
   transform: translateY(4px);
-  box-shadow: 1px 1px 0px var(--border);
+  box-shadow: 1px 1px 0 var(--border);
 }
 .blogpost .title {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 700;
   margin-bottom: 0.4rem;
 }
 .blogpost .devtime {
-  font-size: 1rem;
+  font-size: 0.95rem;
   margin-bottom: 1rem;
   opacity: 0.8;
 }
 .blogpost .note {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* ===== About (requested: center all text & smaller box) ===== */
+#about {
+  margin-top: 4rem;
+  padding: 3rem 2rem;
+  border-top: 2px solid var(--border);
+}
+.about-wrapper {
+  max-width: 680px;        /* smaller box */
+  margin: 0 auto;
+}
+.about-wrapper h2 { 
+  text-align: center; 
+  margin-bottom: 1rem; 
+}
+.about-desc {
+  text-align: center;      /* center text */
+  color: #ddd;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0 auto 2rem auto;
+  max-width: 560px;        /* tighter inner width */
+}
+.about-container {
+  display: flex;
+  justify-content: center; /* center the block */
+  align-items: flex-start;
+}
+.about-text {
+  text-align: center;      /* center all text */
+  max-width: 560px;        /* tighter inner width */
+  margin: 0 auto;
   font-size: 1.1rem;
   line-height: 1.6;
 }
 
-/* About */
-#about { margin-top: 4rem; padding: 3rem 2rem; border-top: 2px solid var(--border); }
-.about-wrapper { max-width: 900px; margin: 0 auto; }
-.about-wrapper h2 { text-align: left; }
-.about-desc { text-align: left; color: #ddd; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; }
-.about-container { display: flex; justify-content: flex-start; align-items: flex-start; }
-.about-text { text-align: left; max-width: 700px; font-size: 1.1rem; line-height: 1.6; }
-
-/* Vote button */
+/* ===== Vote button ===== */
 .vote-button {
   position: fixed;
   bottom: 25px;
@@ -224,18 +274,37 @@ tr { transition: transform 250ms ease, opacity 250ms ease; }
   color: #161616;
   font-weight: 800;
   border: 2px solid #bdbdbd;
-  padding: .9rem 1.6rem;
+  padding: 0.9rem 1.6rem;
   cursor: pointer;
   box-shadow: 4px 4px 0 #bdbdbd;
   font-family: var(--font-main);
   transition: transform .15s var(--ease), box-shadow .15s var(--ease);
+  border-radius: 6px;
 }
-.vote-button:hover { transform: translate(2px,2px); box-shadow: 1px 1px 0 #bdbdbd; }
+.vote-button:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #bdbdbd;
+}
 
+/* ===== Footer ===== */
 footer {
   text-align: center;
-  padding: 1rem;
+  padding: 1.2rem;
   border-top: 2px solid var(--border);
   color: #ccc;
-  margin-top: 1rem;
+  margin-top: 2rem;
+  font-size: 0.95rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 950px) {
+  .two-column {
+    flex-direction: column;
+    align-items: center;
+  }
+  .ranking-section, .news-section {
+    flex: 1 1 100%;
+    max-width: 700px;
+  }
+  .week-title { font-size: 1.2rem; }
 }

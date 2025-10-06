@@ -296,9 +296,7 @@ $(function(){
 
   // Vote (stub)
   $("#voteBtn").on("click",function(){
-    alert("Voter applications opening soon. For now, reach out to the admins to be added as a voter.");
-  });
-
+    window.open("https://forms.gle/mxxS4cMUDDUSVbgq7","_blank");});
   // Initial paint
   setDivision("C");
   renderTable(currentDivision,currentWeek,false);
