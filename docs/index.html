@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Science Olympiad Top 25</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script defer src="client.js"></script>
+</head>
+<body class="dark">
+  <main>
+    <div class="page-header">
+      <h1>Science Olympiad Top 25</h1>
+      <h2 id="weekRangeLabel">Week 4 (Sept 29 – Oct 5, 2025)</h2>
+      <p class="desc">
+        The unofficial alumni-voted Top 25 Science Olympiad teams across the U.S. —
+        where narratives, rivalries, and momentum shape the rankings.
+      </p>
+    </div>
+
+    <div class="content-wrapper two-column">
+      <!-- Leaderboard -->
+      <div class="ranking-section">
+        <div class="week-nav">
+          <button id="prevWeekBtn" class="btn" aria-label="Previous week">←</button>
+          <div class="week-title" id="weekLabel">Week 4 (Sept 29 – Oct 5, 2025)</div>
+          <button id="nextWeekBtn" class="btn" aria-label="Next week">→</button>
+        </div>
+
+        <div class="table-header">
+          <h3>Division <span id="divisionLabel">C</span> Rankings</h3>
+
+          <!-- Division slider (B on left, C on right) -->
+          <div id="divisionSwitch" class="switch" role="switch" aria-checked="true" tabindex="0">
+            <span class="switch-label left">B</span>
+            <span class="switch-label right">C</span>
+            <div class="switch-knob">C</div>
+          </div>
+        </div>
+
+        <div class="ranking-table-container">
+          <table id="rankingTable">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Team</th>
+                <th class="trend-col">Trend</th>
+              </tr>
+            </thead>
+            <tbody id="rankingBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- News -->
+      <div class="news-section">
+        <h3 class="headline-title">Recent Headlines</h3>
+        <div id="articles"></div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <section class="page-section" id="about">
+      <div class="content-wrapper about-wrapper">
+        <h2>About the Poll</h2>
+        <p class="about-desc">
+          The Science Olympiad AP Poll is a community-run ranking curated by former competitors.
+          Each week, alumni voters submit ballots reflecting team strength, recent results, and season momentum —
+          blending objective performance with subjective insight. This project isn’t affiliated with Science Olympiad;
+          it’s a fun way to spark discussion and celebrate the season’s storylines.
+        </p>
+
+        <div class="about-container">
+          <div class="about-text">
+            <p><strong>Eddy Zhao</strong> — Former Acton-Boxborough captain, Fermi National Silver Medalist,
+              and 3× Nationals Top 10; now studying Astrophysics & Computer Science at UC Berkeley.</p>
+            <p><strong>Aneesh Iyer</strong> — Former Mason High School captain, Optics National Champion,
+              Codebusters National Silver Medalist; now at Georgia Tech.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="vote-button" id="voteBtn">Vote Now!</button>
+
+  <footer>
+    <p>Science Olympiad Top 25 is not affiliated in any way with Science Olympiad Inc.</p>
+  </footer>
+</body>
+</html>
