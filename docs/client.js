@@ -1,119 +1,90 @@
 /* ==========================================================
-   Weeks, Data (25 teams each), News, State, Rendering + FLIP
+   Scioly25 Client (Preseason-ready, Division B removed)
+   - No placeholder rankings before Oct 25, 2025
+   - Week 1 begins Oct 25, 2025
+   - FLIP animations preserved when data exists
+   - Preseason overlay with top alignment to first news card
+   - Robust against duplicate overlays & resize corruption
    ========================================================== */
 
+/* ---- Labels ---- */
 const WEEK_LABELS = {
-  1: "Week 1 (Sept 8 – Sept 14, 2025)",
-  2: "Week 2 (Sept 15 – Sept 21, 2025)",
-  3: "Week 3 (Sept 22 – Sept 28, 2025)",
-  4: "Week 4 (Sept 29 – Oct 5, 2025)",
+  0: "2026 Preseason (through Oct 25, 2025)",
+  1: "2026 Week 1 (Oct 25 – Oct 31, 2025)",
+  // Add more weeks when you publish them:
+  // 2: "Week 2 (Nov 1 – Nov 7, 2025)",
+  // ...
 };
 
-/* ---- Base rosters ---- */
-const C_BASE = [
-  "Troy High School (CA)","Solon High School (OH)","Mason High School (OH)","WW-P North (NJ)",
-  "Seven Lakes High School (TX)","Acton-Boxborough (MA)","New Trier High School (IL)","Carmel High School (IN)",
-  "Mira Loma High School (CA)","Centerville High School (OH)","Mountain View High School (CA)","Harriton High School (PA)",
-  "Brookwood High School (GA)","Grand Haven High School (MI)","Syosset High School (NY)","LASA High School (TX)",
-  "Columbia High School (NY)","Eastview High School (MN)","Shady Side Academy (PA)","Bothell High School (WA)",
-  "Pembroke Hill (MO)","Charlottesville High School (VA)","Cambridge High School (GA)","Iolani School (HI)",
-  "Bearden High School (TN)"
-];
-
-const B_BASE = [
-  "Kennedy Middle School (CA)","Solon Middle School (OH)","Beckendorff Junior High (TX)","Marie Murphy (IL)",
-  "Piedmont IB Middle School (NC)","Winston Churchill MS (CA)","Paul J. Gelinas JH (NY)","Jeffrey Trail MS (CA)",
-  "Shady Side Academy (PA)","Carmel Middle School (IN)","Rachel Carson MS (VA)","Fulton Science Academy (GA)",
-  "Thomas MS (IL)","Harlan MS (TX)","Dodgen MS (GA)","Sycamore JH (OH)","Clague MS (MI)",
-  "Timberline MS (WA)","Clements MS (AL)","Mesa Robles MS (CA)","Seven Lakes JH (TX)","Longfellow MS (VA)",
-  "Ladue MS (MO)","Bearden MS (TN)","Iolani School (HI)"
-];
-
-/* ---- Helpers ---- */
-const clone = (a)=>a.slice();
-function swap(arr,a,b){
-  const i=arr.indexOf(a),j=arr.indexOf(b);
-  if(i>=0 && j>=0)[arr[i],arr[j]]=[arr[j],arr[i]];
-}
-function remove(arr,name){
-  const i=arr.indexOf(name);
-  if(i<0)return arr.slice();
-  const out=arr.slice();out.splice(i,1);return out;
-}
-function insert(arr,name,idx){
-  const out=arr.slice();
-  if(!out.includes(name))out.splice(Math.max(0,Math.min(idx,out.length)),0,name);
-  return out.slice(0,25);
-}
-
-/* ---- Build weekly rankings for Division C ---- */
-const C_w1 = clone(C_BASE);
-const C_w2 = clone(C_w1); swap(C_w2,"Mason High School (OH)","WW-P North (NJ)"); swap(C_w2,"Carmel High School (IN)","New Trier High School (IL)");
-const C_w3a = clone(C_w2); swap(C_w3a,"Seven Lakes High School (TX)","Acton-Boxborough (MA)"); swap(C_w3a,"Harriton High School (PA)","Mountain View High School (CA)");
-const C_w3 = insert(remove(C_w3a,"Pembroke Hill (MO)"), "Arcadia High School (CA)", 18);
-const C_w4a = clone(C_w3); swap(C_w4a,"Mason High School (OH)","WW-P North (NJ)"); swap(C_w4a,"Shady Side Academy (PA)","Bothell High School (WA)");
-const C_w4 = insert(remove(C_w4a,"Cambridge High School (GA)"), "West Windsor-Plainsboro South (NJ)", 20);
-
-/* ---- Build weekly rankings for Division B ---- */
-const B_w1 = clone(B_BASE);
-const B_w2 = clone(B_w1); swap(B_w2,"Beckendorff Junior High (TX)","Solon Middle School (OH)"); swap(B_w2,"Winston Churchill MS (CA)","Paul J. Gelinas JH (NY)");
-const B_w3a = clone(B_w2); swap(B_w3a,"Jeffrey Trail MS (CA)","Shady Side Academy (PA)"); swap(B_w3a,"Thomas MS (IL)","Fulton Science Academy (GA)");
-let B_w3 = insert(remove(B_w3a,"Bearden MS (TN)"), "Hamilton MS (CO)", 22);
-const B_w4a = clone(B_w3); swap(B_w4a,"Solon Middle School (OH)","Kennedy Middle School (CA)"); swap(B_w4a,"Dodgen MS (GA)","Sycamore JH (OH)");
-let B_w4 = insert(remove(B_w4a,"Iolani School (HI)"), "Meads Mill MS (MI)", 23);
-
-/* ---- Normalize ---- */
-function normalize(list){
-  const seen=new Set();const out=[];
-  for(const t of list){if(!seen.has(t)){ seen.add(t); out.push(t); }}
-  while(out.length<25) out.push("At-Large Team "+(out.length+1));
-  return out.slice(0,25);
-}
-const DATA={
-  C:{1:normalize(C_w1),2:normalize(C_w2),3:normalize(C_w3),4:normalize(C_w4)},
-  B:{1:normalize(B_w1),2:normalize(B_w2),3:normalize(B_w3),4:normalize(B_w4)}
+/* ---- Data ----
+   IMPORTANT: No placeholder rankings are shipped.
+   Fill in DATA.C[1] (and beyond) when results are finalized. */
+const DATA = {
+  C: {
+    1: [], // e.g., ["Team A","Team B",...,"Team Y"] (max 25)
+  },
 };
 
 /* ---- News ---- */
-const NEWS={
-  C:{
-    1:[{title:"Preseason Hype Centers on Troy, Solon",date:"Sept 12, 2025",author:"Scioly25 Team",content:"Coast-to-coast alumni ballots give Troy a narrow edge over Solon entering Week 1."}],
-    2:[{title:"Mason Surges After Strong Invite",date:"Sept 19, 2025",author:"Scioly25 Team",content:"Mason climbs on the back of consistent top-3 finishes; WW-P North stabilizes."}],
-    3:[{title:"Arcadia Enters Top 25",date:"Sept 26, 2025",author:"Scioly25 Team",content:"Arcadia breaks into the poll after a breakout showing at early-season invitationals."}],
-    4:[{title:"WW-P South Joins the Party",date:"Oct 3, 2025",author:"Scioly25 Team",content:"New Jersey tightens — WW-P South debuts as regional results shake the teens."}]
+const NEWS = {
+  preseason: [
+    {
+      title: "Preseason Poll Schedule Announced",
+      date: "Oct 5, 2025",
+      author: "Scioly25 Team",
+      content:
+        "Welcome to the 2025-2026 Science Olympiad season! We are currently in the period we call \"pre-season\", when the season is officially underway but no major tournaments have taken place. Initial pre-season rankings will be released on Oct 25. From then on, we will update rankings periodically based on alumni votes, which will be influenced by general sentiment and tournament results.",
+    },
+  ],
+  C: {
+    1: [], // Fill with real Week 1 headlines after release
   },
-  B:{
-    1:[{title:"Kennedy, Solon Pace the Field",date:"Sept 12, 2025",author:"Scioly25 Team",content:"Early ballots favor the West Coast powerhouse with Solon close behind."}],
-    2:[{title:"Texas Heats Up",date:"Sept 19, 2025",author:"Scioly25 Team",content:"Beckendorff and Seven Lakes post statement results across multiple events."}],
-    3:[{title:"Depth Matters Mid-Season",date:"Sept 26, 2025",author:"Scioly25 Team",content:"Balanced rosters rise as rebuilds cause turbulence through the teens."}],
-    4:[{title:"Meads Mill Reappears in the Poll",date:"Oct 3, 2025",author:"Scioly25 Team",content:"Michigan’s perennial threat returns to the top-25 as the Midwest tightens up."}]
-  }
 };
 
 /* ---- State ---- */
-let currentDivision="C";
-let currentWeek=4;
+let currentDivision = "C";
+let currentWeek = 0; // start in Preseason
 
-/* ---- Helpers ---- */
-const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-");
-function computeStats(currList,prevList){
-  const prevIdx=new Map();
-  if(prevList) prevList.forEach((t,i)=>prevIdx.set(t,i+1));
-  const out={};
-  currList.forEach((t,i)=>{
-    const curr=i+1;
-    const prev=prevIdx.has(t)?prevIdx.get(t):null;
-    const diff=prev==null?null:(prev-curr); // + => moved up, - => moved down
-    out[t]={currRank:curr,prevRank:prev,diff};
+/* ---- Utils ---- */
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+/* Compute rank diffs relative to previous list */
+function computeStats(currList, prevList) {
+  const prevIdx = new Map();
+  if (prevList) prevList.forEach((t, i) => prevIdx.set(t, i + 1));
+  const out = {};
+  currList.forEach((t, i) => {
+    const curr = i + 1;
+    const prev = prevIdx.has(t) ? prevIdx.get(t) : null;
+    const diff = prev == null ? null : prev - curr; // + up, - down
+    out[t] = { currRank: curr, prevRank: prev, diff };
   });
   return out;
 }
 
 /* ---- News Render ---- */
-function renderNews(div,wk){
-  const box=$("#articles").empty();
-  const items=(NEWS[div]&&NEWS[div][wk])?NEWS[div][wk]:[];
-  items.forEach(a=>{
+function renderNews(div, wk) {
+  const box = $("#articles").empty();
+
+  // If before Oct 25, always show preseason headline(s)
+  const today = new Date();
+  const preseasonEnd = new Date("2025-10-25T00:00:00");
+  if (today < preseasonEnd) {
+    NEWS.preseason.forEach((a) => {
+      box.append(`
+        <div class="blogpost">
+          <div class="title">${a.title}</div>
+          <div class="devtime">${a.date} · ${a.author}</div>
+          <p class="note">${a.content}</p>
+        </div>
+      `);
+    });
+    return;
+  }
+
+  // After preseason, render week headlines (if any)
+  const items = (NEWS[div] && NEWS[div][wk]) ? NEWS[div][wk] : [];
+  items.forEach((a) => {
     box.append(`
       <div class="blogpost">
         <div class="title">${a.title}</div>
@@ -122,45 +93,78 @@ function renderNews(div,wk){
       </div>
     `);
   });
+
+  // Soft placeholder if none
+  if (items.length === 0) {
+    box.append(`
+      <div class="blogpost">
+        <div class="title">Awaiting Results</div>
+        <div class="devtime">${WEEK_LABELS[wk] || ""}</div>
+        <p class="note">Headlines will appear as soon as results are posted.</p>
+      </div>
+    `);
+  }
 }
 
 /* ==========================================================
    Robust FLIP Animation (table-safe)
-   - measure FIRST rects
-   - build final order (append existing nodes or create entering)
-   - measure LAST rects
-   - invert: set translateY(first - last)
-   - force reflow, then play to 0 with opacity 1
-   - leaving nodes: fade/slide then remove (after final layout built)
+   - Handles empty weeks gracefully
    ========================================================== */
-function renderTable(div,wk,animate=true){
+function renderTable(div, wk, animate = true) {
   const tbody = document.getElementById("rankingBody");
-  const $tbody = $("#rankingBody");
 
-  const currList = DATA[div][wk];
-  const prevList = (wk>1)?DATA[div][wk-1]:null;
+  const currList = (DATA[div] && DATA[div][wk]) ? DATA[div][wk] : [];
+  const prevList = (wk > 0 && DATA[div] && DATA[div][wk - 1]) ? DATA[div][wk - 1] : null;
+
+  // If no data for this week, show a friendly placeholder row
+  if (!Array.isArray(currList) || currList.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="3" style="text-align:center; opacity:.85;">
+          ${wk === 0 ? "No rankings yet — preseason mode." : "No rankings published yet."}
+        </td>
+      </tr>
+    `;
+    // Labels & nav buttons
+    $("#divisionLabel").text(div);
+    $("#weekLabel").text(WEEK_LABELS[wk] || "");
+    $("#weekRangeLabel").text(WEEK_LABELS[wk] || "");
+    $("#prevWeekBtn").prop("disabled", wk === 0);
+    $("#nextWeekBtn").prop("disabled", !(WEEK_LABELS[wk + 1]));
+    // News
+    renderNews(div, wk);
+    // If overlay is present, realign after content changes
+    scheduleOverlayRealign();
+    return;
+  }
+
+  // Otherwise: normal FLIP flow
   const stats = computeStats(currList, prevList);
 
-  // Map existing rows by id
+  // Map existing rows
   const oldRows = new Map();
-  Array.from(tbody.children).forEach(tr => { oldRows.set(tr.getAttribute("data-id"), tr); });
+  Array.from(tbody.children).forEach((tr) => {
+    const id = tr.getAttribute("data-id");
+    if (id) oldRows.set(id, tr);
+  });
 
   // FIRST: measure current positions
   const firstRect = new Map();
-  oldRows.forEach((el, id) => { firstRect.set(id, el.getBoundingClientRect().top); });
+  oldRows.forEach((el, id) => {
+    firstRect.set(id, el.getBoundingClientRect().top);
+  });
 
   // Determine leaving ids
   const incomingIds = new Set(currList.map(slug));
   const leaving = [];
-  oldRows.forEach((el, id) => { if (!incomingIds.has(id)) leaving.push(el); });
+  oldRows.forEach((el, id) => {
+    if (!incomingIds.has(id)) leaving.push(el);
+  });
 
-  // Build final order fragment (reusing existing nodes when possible)
+  // Build final order (reusing nodes when possible)
   const frag = document.createDocumentFragment();
-  const presentIds = [];
-  currList.forEach(team => {
+  currList.forEach((team) => {
     const id = slug(team);
-    presentIds.push(id);
-
     const { currRank, prevRank, diff } = stats[team];
     let trend = `<span class="trend-none">—</span>`;
     if (prevRank != null) {
@@ -170,7 +174,7 @@ function renderTable(div,wk,animate=true){
 
     let row = oldRows.get(id);
     if (!row) {
-      // ENTERING node
+      // ENTERING
       row = document.createElement("tr");
       row.setAttribute("data-id", id);
       row.style.transform = "translateY(20px)";
@@ -182,7 +186,7 @@ function renderTable(div,wk,animate=true){
         <td class="trend">${trend}</td>
       `;
     } else {
-      // Update cell contents on existing node
+      // UPDATE existing
       row.querySelector(".rank-num").textContent = `#${currRank}`;
       row.querySelector(".team-name").textContent = team;
       row.querySelector(".trend").innerHTML = trend;
@@ -191,12 +195,11 @@ function renderTable(div,wk,animate=true){
     frag.appendChild(row);
   });
 
-  // Remove leaving rows *from layout* first so last positions reflect the final layout
-  leaving.forEach(el => {
+  // Remove leaving from layout first
+  leaving.forEach((el) => {
     el.style.transition = "transform 220ms ease, opacity 220ms ease";
     el.style.transform = "translateY(20px)";
     el.style.opacity = "0";
-    // Remove from DOM before measuring LAST (to avoid layout interference)
     el.parentNode && el.parentNode.removeChild(el);
   });
 
@@ -205,99 +208,172 @@ function renderTable(div,wk,animate=true){
 
   // LAST: measure final positions
   const lastRect = new Map();
-  Array.from(tbody.children).forEach(tr => {
-    lastRect.set(tr.getAttribute("data-id"), tr.getBoundingClientRect().top);
+  Array.from(tbody.children).forEach((tr) => {
+    const id = tr.getAttribute("data-id");
+    if (id) lastRect.set(id, tr.getBoundingClientRect().top);
   });
 
-  // Invert and Play
+  // INVERT + PLAY
   if (animate) {
-    Array.from(tbody.children).forEach(tr => {
+    Array.from(tbody.children).forEach((tr) => {
       const id = tr.getAttribute("data-id");
       const firstTop = firstRect.get(id);
-      const lastTop  = lastRect.get(id);
-
-      // ENTERING: firstTop undefined
+      const lastTop = lastRect.get(id);
       if (firstTop === undefined) {
-        // already set to translateY(20px), opacity 0
-        // force reflow
+        // entering
         void tr.getBoundingClientRect();
         tr.style.transition = "transform 250ms ease, opacity 250ms ease";
         tr.style.transform = "translateY(0)";
         tr.style.opacity = "1";
         return;
       }
-
-      // EXISTING: invert
       const delta = firstTop - lastTop;
       tr.style.transition = "none";
-      tr.style.transform  = `translateY(${delta}px)`;
-
-      // force reflow
+      tr.style.transform = `translateY(${delta}px)`;
       void tr.getBoundingClientRect();
-
-      // play
       tr.style.transition = "transform 250ms ease, opacity 250ms ease";
-      tr.style.transform  = "translateY(0)";
-      tr.style.opacity    = "1";
+      tr.style.transform = "translateY(0)";
+      tr.style.opacity = "1";
     });
   } else {
-    // initial paint
-    Array.from(tbody.children).forEach(tr => {
+    Array.from(tbody.children).forEach((tr) => {
       tr.style.transition = "transform 250ms ease, opacity 250ms ease";
-      tr.style.transform  = "translateY(0)";
-      tr.style.opacity    = "1";
+      tr.style.transform = "translateY(0)";
+      tr.style.opacity = "1";
     });
   }
 
   // Labels & buttons
   $("#divisionLabel").text(div);
-  $("#weekLabel").text(WEEK_LABELS[wk]);
-  $("#weekRangeLabel").text(WEEK_LABELS[wk]);
-  $("#prevWeekBtn").prop("disabled", wk===1);
-  $("#nextWeekBtn").prop("disabled", wk===4);
+  $("#weekLabel").text(WEEK_LABELS[wk] || "");
+  $("#weekRangeLabel").text(WEEK_LABELS[wk] || "");
+  $("#prevWeekBtn").prop("disabled", wk === 0);
+  $("#nextWeekBtn").prop("disabled", !(WEEK_LABELS[wk + 1]));
 
   // News
   renderNews(div, wk);
+
+  // If overlay is present, realign after content changes
+  scheduleOverlayRealign();
 }
 
 /* ---- Events ---- */
-function setDivision(div){
-  currentDivision=div;
-  const checked=(div==="C");
-  $("#divisionSwitch").attr("aria-checked",checked?"true":"false");
-  $(".switch-knob").text(div);
-  renderTable(currentDivision,currentWeek,true);
+function setDivision(div) {
+  // Division B removed; keep label static but preserve API for future
+  currentDivision = "C";
+  renderTable(currentDivision, currentWeek, true);
 }
 
-$(function(){
-  // Division slider (B on left, C on right; default C)
-  $("#divisionSwitch").on("click keypress",function(e){
-    if(e.type==="keypress" && e.which!==13 && e.which!==32) return;
-    setDivision(currentDivision==="C" ? "B" : "C");
+$(function () {
+  // Week arrows
+  $("#prevWeekBtn").on("click", function () {
+    if (currentWeek > 0) {
+      currentWeek--;
+      renderTable(currentDivision, currentWeek, true);
+    }
+    $("#prevWeekBtn").prop("disabled", currentWeek === 0);
+    $("#nextWeekBtn").prop("disabled", !(WEEK_LABELS[currentWeek + 1]));
   });
 
-  // Week arrows (stop at ends)
-  $("#prevWeekBtn").on("click",function(){
-    if(currentWeek>1){
-      currentWeek--;
-      renderTable(currentDivision,currentWeek,true);
-    }
-    $("#prevWeekBtn").prop("disabled", currentWeek===1);
-    $("#nextWeekBtn").prop("disabled", currentWeek===4);
-  });
-  $("#nextWeekBtn").on("click",function(){
-    if(currentWeek<4){
+  $("#nextWeekBtn").on("click", function () {
+    if (WEEK_LABELS[currentWeek + 1]) {
       currentWeek++;
-      renderTable(currentDivision,currentWeek,true);
+      renderTable(currentDivision, currentWeek, true);
     }
-    $("#prevWeekBtn").prop("disabled", currentWeek===1);
-    $("#nextWeekBtn").prop("disabled", currentWeek===4);
+    $("#prevWeekBtn").prop("disabled", currentWeek === 0);
+    $("#nextWeekBtn").prop("disabled", !(WEEK_LABELS[currentWeek + 1]));
   });
 
   // Vote (stub)
-  $("#voteBtn").on("click",function(){
-    window.open("https://forms.gle/mxxS4cMUDDUSVbgq7","_blank");});
+  $("#voteBtn").on("click", function () {
+    window.open("https://forms.gle/UJ2dUeJBy1ve8UJ48", "_blank");
+  });
+
   // Initial paint
   setDivision("C");
-  renderTable(currentDivision,currentWeek,false);
+  renderTable(currentDivision, currentWeek, false);
+});
+
+/* ==========================================================
+   Overlay management (prevents duplicates + smooth reflow)
+   ========================================================== */
+const OVERLAY_ID = "preseasonOverlay";
+let overlayRAF = null;
+
+function alignOverlayToNewsCard() {
+  const $ranking = $(".ranking-section");
+  const $overlay = $("#" + OVERLAY_ID);
+  const $overlayCard = $overlay.find(".preseason-card");
+  const $firstNews = $(".news-section .blogpost").first();
+
+  if (!$ranking.length || !$overlay.length || !$overlayCard.length) return;
+
+  // Default: no offset if there is no news card
+  let offset = 0;
+
+  if ($firstNews.length) {
+    // Align the overlay card's top to the first news card (relative to the same row)
+    const rowTop = $(".two-column").offset().top || 0;
+    const rankingTop = $ranking.offset().top - rowTop;
+    const newsCardTop = $firstNews.offset().top - rowTop;
+    offset = Math.max(0, newsCardTop - rankingTop);
+  }
+
+  // Use margin-top on the card; simpler and avoids reflow thrash
+
+}
+
+function scheduleOverlayRealign() {
+  if (overlayRAF) cancelAnimationFrame(overlayRAF);
+  overlayRAF = requestAnimationFrame(() => {
+    alignOverlayToNewsCard();
+    overlayRAF = null;
+  });
+}
+
+function ensurePreseasonOverlay() {
+  const today = new Date();
+  const preseasonEnd = new Date("2025-10-25T00:00:00");
+  if (today >= preseasonEnd) return; // no overlay after preseason
+
+  if (!document.getElementById(OVERLAY_ID)) {
+    const overlay = $(`
+      <div class="preseason-overlay" id="${OVERLAY_ID}">
+        <div class="preseason-card">
+          <h3 class="preseason-title">Preseason Poll Coming Soon</h3>
+        
+          <p class="preseason-text">
+            Preseason rankings will be released on <strong>October 25, 2025</strong>.
+          </p>
+        </div>
+      </div>
+    `);
+    $(".ranking-section").css("position", "relative").append(overlay);
+  }
+
+  scheduleOverlayRealign();
+}
+
+/* Create overlay once on ready, and keep it aligned */
+$(function () {
+  ensurePreseasonOverlay();
+
+  // Re-align on viewport changes
+  $(window).on("resize orientationchange", scheduleOverlayRealign);
+
+  // Re-align when news list height changes
+  if (window.ResizeObserver) {
+    const newsEl = document.querySelector(".news-section");
+    const rankEl = document.querySelector(".ranking-section");
+    const ro = new ResizeObserver(() => scheduleOverlayRealign());
+    newsEl && ro.observe(newsEl);
+    rankEl && ro.observe(rankEl);
+  }
+
+  // Also re-align after any async content is appended to news
+  const articles = document.getElementById("articles");
+  if (articles && window.MutationObserver) {
+    const mo = new MutationObserver(() => scheduleOverlayRealign());
+    mo.observe(articles, { childList: true, subtree: true });
+  }
 });
